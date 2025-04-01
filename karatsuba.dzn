@@ -1,0 +1,34 @@
+in_size = 11;
+statements = [
+"Double@A m = Math@A.max( Math@A.log10( n1 ), Math@A.log10( n2 ) ) + 1@A;",
+"Integer@A m2 = Double@A.valueOf( m / 2@A ).intValue();",
+"Integer@A splitter = Double@A.valueOf( Math@A.pow( 10@A, m2 ) ).intValue();", % 3
+"Long@A h1 = n1 / splitter;",
+"Long@A l1 = n1 % splitter;",
+"Long@A h2 = n2 / splitter;", %6
+"Long@A l2 = n2 % splitter;",
+"Long@B z0 = Karatsuba@( B, C, A ).multiply( l1, l2, ch_BC, ch_CA, ch_AB );", 
+"Long@C z2 = Karatsuba@( C, A, B ).multiply( h1, h2, ch_CA, ch_AB, ch_BC );", %9
+"Long@A z1 = Karatsuba@( A, B, C ).multiply( l1 + h1, l2 + h2, ch_AB, ch_BC, ch_CA ) - z2 - z0;",
+"return z2 * splitter * splitter + z1 * splitter + z0;" 
+];
+
+roles = {A, B, C};
+
+num_deps = 6;
+dependencies = array1d( DEPS, [
+  "l1", "l2", "h1", "h2", "z2", "z0"]); 
+dep_to = array1d( DEPS, [
+  B, B, C, C, A, A]); 
+dep_def_at = array1d( DEPS, [
+  5, 7, 4, 6, 8, 9]);
+  
+dep_used_at = [|
+DEPS[1], 8|
+DEPS[2], 8|
+DEPS[3], 9|
+DEPS[4], 9|
+DEPS[5], 10|
+DEPS[6], 10|
+DEPS[5], 11|
+DEPS[6], 11|];

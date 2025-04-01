@@ -1,0 +1,8 @@
+{
+    "-O": 2,
+    "all-satisfaction": true,
+    "intermediate-solutions": true,
+    "output-objective": true,
+    "parallel": 10,
+    "solver": "org.gecode.gecode@6.3.0"
+}

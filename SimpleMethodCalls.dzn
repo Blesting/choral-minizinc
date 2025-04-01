@@ -1,0 +1,40 @@
+in_size = 9;
+statements = [
+"Integer@A i_A = 0@A;",
+"Integer@B i_B = 0@B;",
+"c_A.fun0();", % 3
+"c_A.fun_in( i_A );",
+"c_A.fun_in( i_B );",
+"c_A.fun_in( c_A.fun_out() );", % 6
+"c_A.fun_in( c_B.fun_out() );",
+"c_A.fun_in( c_B.fun_in_out( c_A.fun_out() ) );",
+"c_A.fun_in( c_B.price.currency );" % 9
+];
+
+
+roles = {A, B};
+
+num_deps = 5;
+dependencies = array1d( DEPS, [
+  "i_B", "c_B.fun_out()", "c_A.fun_out()", "c_B.fun_in_out( c_A.fun_out() )", "c_B.price.currency"]); 
+dep_to = array1d( DEPS, [
+  A, A, B, A, A]); 
+dep_def_at = array1d( DEPS, [
+  2, 0, 0, 0, 0]);
+  
+dep_used_at = [|
+DEPS[1], 5|
+DEPS[2], 7|
+DEPS[3], DEPS[4]|
+DEPS[4], 8|
+DEPS[5], 9|];
+
+
+
+
+
+
+
+
+
+

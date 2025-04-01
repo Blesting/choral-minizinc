@@ -1,0 +1,18 @@
+{
+    "openFiles": [
+        "Main.mzn",
+        "prog1.dzn",
+        "karatsuba.dzn",
+        "SimpleMethodCalls.dzn"
+    ],
+    "openTab": 3,
+    "projectFiles": [
+        "Main.mzn",
+        "SimpleMethodCalls.dzn",
+        "karatsuba.dzn",
+        "prog1.dzn"
+    ],
+    "selectedBuiltinConfigId": "org.gecode.gecode",
+    "selectedBuiltinConfigVersion": "6.3.0",
+    "version": 106
+}
