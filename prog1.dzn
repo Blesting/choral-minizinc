@@ -6,11 +6,16 @@ statements = [
 "fun@B(x, y_A);",
 "fun@A(x, y);" ]; 
 
+statements_roles = [
+A, B, A, B, A];
+
 roles = {A, B};
 
 num_deps = 3;
 dependencies = array1d( DEPS, [
   "y", "x", "y_A"]); 
+dep_from = array1d( DEPS, [
+  B, A, A]); 
 dep_to = array1d( DEPS, [
   A, B, B]); 
 dep_def_at = array1d( DEPS, [

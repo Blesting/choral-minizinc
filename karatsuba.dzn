@@ -13,11 +13,16 @@ statements = [
 "return z2 * splitter * splitter + z1 * splitter + z0;" 
 ];
 
+statements_roles = [
+A, A, A, A, A, A, A, B, C, A, A];
+
 roles = {A, B, C};
 
 num_deps = 6;
 dependencies = array1d( DEPS, [
   "l1", "l2", "h1", "h2", "z2", "z0"]); 
+dep_from = array1d( DEPS, [
+  A, A, A, A, C, B]); 
 dep_to = array1d( DEPS, [
   B, B, C, C, A, A]); 
 dep_def_at = array1d( DEPS, [

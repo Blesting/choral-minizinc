@@ -1,0 +1,39 @@
+in_size = 4;
+statements = [ 
+"x1 = A.m();", 
+"x2 = A.m();",
+"B.m( x1 );",
+"B.m( x2 );" ]; 
+
+statements_roles = [
+A, A, B, B];
+
+roles = {A, B};
+
+num_deps = 2;
+dependencies = array1d( DEPS, [
+  "x1", "x2"]); 
+dep_from = array1d( DEPS, [
+  A, A]); 
+dep_to = array1d( DEPS, [
+  B, B]); 
+dep_def_at = array1d( DEPS, [
+  1, 2]);
+  
+dep_used_at = [|
+DEPS[1], 3|
+DEPS[2], 4|];
+
+
+
+
+
+
+
+
+
+
+
+
+
+

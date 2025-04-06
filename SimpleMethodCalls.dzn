@@ -11,12 +11,17 @@ statements = [
 "c_A.fun_in( c_B.price.currency );" % 9
 ];
 
+statements_roles = [
+A, B, A, A, A, A, A, A, A];
+
 
 roles = {A, B};
 
 num_deps = 5;
 dependencies = array1d( DEPS, [
   "i_B", "c_B.fun_out()", "c_A.fun_out()", "c_B.fun_in_out( c_A.fun_out() )", "c_B.price.currency"]); 
+dep_from = array1d( DEPS, [
+  B, B, A, B, B]); 
 dep_to = array1d( DEPS, [
   A, A, B, A, A]); 
 dep_def_at = array1d( DEPS, [
