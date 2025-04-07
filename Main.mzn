@@ -15,6 +15,7 @@ array[IN_SIZE] of string: statements; % a list of all the original statements
 array[IN_SIZE] of roles: statements_roles; % a list of the roles of the originals statements
 array[IN_SIZE] of int: statements_runtimes = [1 | i in IN_SIZE]; % a list of runtimes for each statement 
                                                                   % (default if 1 for every statement)
+% array[IN_SIZE, 1..2] of 0..in_size: statements_blocks;
 array[DEPS] of string: dependencies;  % a list of all the dependency expressions
 array[DEPS] of roles: dep_to; % a list of all the dependency recipient roles
 array[DEPS] of roles: dep_from; % a list of all the dependency sender roles
@@ -44,7 +45,7 @@ var int: num_coms = sum( idx in DEPS )  % count the number of coms. if two (or m
     then 1
     else forall( other in DEPS[1]..idx-1 )
         ( (out_prog_idx[idx] != out_prog_idx[other])  \/
-          (dep_to[idx] != dep_to[other]) )
+          (dep_to[idx] != dep_to[other] \/ dep_from[idx] != dep_from[other])  )
    endif );
 
 % Obj 2: minimize largest runtime
@@ -56,22 +57,24 @@ constraint
 forall( role in roles )(
   forall( s in IN_SIZE )(
     forall( d in DEPS )(
-      ( out_prog_idx[d] == s /\ dep_to[d] == role ) ->
-         (runtimes[role, s] >= max( runtimes[dep_from[d], s-1], runtimes[dep_to[d], s-1] ) +
-           (if statements_roles[s] == role then 1 else 0 endif))
+       (runtimes[role, s] >= 
+          if(out_prog_idx[d] == s /\ dep_to[d] == role) % the dependency is on this line and to this role
+            then max( runtimes[dep_from[d], s-1]+1, runtimes[dep_to[d], s-1] ) % simulates recipient waiting for sender
+            else runtimes[role, s-1]
+          endif +
+         (if statements_roles[s] == role then statements_runtimes[s] else 0 endif) + % if this statement is executed by this role
+         (sum( [ 1 | k in DEPS where % all the messages sent from this role at this statement
+            dep_from[k] == role /\ 
+            out_prog_idx[k] == s /\ 
+            forall( k2 in DEPS[1]..k-1 where dep_from[k2] == role /\ out_prog_idx[k2] == s )
+              ( dep_to[k] != dep_to[k2] ) ] )
+         ) 
+       )   
     ) 
   )
 );
-constraint 
-forall( role in roles )(
-  forall( s in IN_SIZE )(
-    (statements_roles[s] = role) -> 
-      (runtimes[role, s] >= runtimes[role, s-1] + 1)
-  )
-);
-  
 
-solve minimize max( [ runtimes[r, in_size] | r in roles ] );
+solve minimize max( [ runtimes[r, in_size] | r in roles ] ) ;
 output 
 /*
 [ "Statements: \n" ] ++ 
@@ -85,7 +88,9 @@ output
 [ " ]\n" ] ++
 [ concat(["- : \(dependencies[j]) -> \(dep_to[j])\n" | j in DEPS where fix(out_prog_idx[j]) = i ]) 
   ++ "\(i) : \(statements[i])\n" | i in IN_SIZE ] ++
+[ "Communications: \(num_coms)\n" ] ++
 [ "max runtime: \(max( [ runtimes[r, in_size] | r in roles ] ))\n" ] ++
+[ concat( ["   "] ++ ["\(i), " | i in index_set_2of2(runtimes)] ++ ["\n"] ) ] ++
 [ concat( ["\(i): "] ++ ["\(runtimes[i,j]), " | j in index_set_2of2(runtimes) ] ++ [ "\n" ] )  | i in index_set_1of2(runtimes)];
 
 
