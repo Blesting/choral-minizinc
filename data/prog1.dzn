@@ -9,6 +9,7 @@ statements = [
 statements_roles = [
 A, B, A, B, A];
 
+
 roles = {A, B};
 
 num_deps = 3;

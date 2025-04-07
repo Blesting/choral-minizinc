@@ -3,16 +3,20 @@
         "Main.mzn",
         "prog1.dzn",
         "karatsuba.dzn",
-        "SimpleMethodCalls.dzn"
+        "SimpleMethodCalls.dzn",
+        "SimpleBatching.dzn",
+        "SimpleIf.dzn"
     ],
-    "openTab": 3,
+    "openTab": 0,
     "projectFiles": [
         "Main.mzn",
+        "SimpleBatching.dzn",
+        "SimpleIf.dzn",
         "SimpleMethodCalls.dzn",
         "karatsuba.dzn",
-        "prog1.dzn"
+        "prog1.dzn",
+        "solver_config.mpc"
     ],
-    "selectedBuiltinConfigId": "org.gecode.gecode",
-    "selectedBuiltinConfigVersion": "6.3.0",
+    "selectedSolverConfigFile": "solver_config.mpc",
     "version": 106
 }
