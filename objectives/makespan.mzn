@@ -26,15 +26,24 @@ forall( role in roles )(
 );
 solve minimize max( [ runtimes[r, in_size] | r in roles ] );
 output 
-[ "Output program: \n" ]++
+[ "Output list: \n" ]++
 [ "[ \(out_prog_idx[DEPS[1]])" ] ++ 
 [ ", \(out_prog_idx[i])" | i in DEPS where i > DEPS[1] ] ++ 
 [ " ]\n" ] ++
-[ concat(["- : \(dependencies[j]) -> \(dep_to[j])\n" | j in DEPS where fix(out_prog_idx[j]) = i ]) 
+[ "Output program: \n" ]++
+[ concat(["- : \(dep_from[j])--( \(dependencies[j]) )-> \(dep_to[j])\n" | j in DEPS where fix(out_prog_idx[j]) = i ]) 
   ++ "\(i) : \(statements[i])\n" | i in IN_SIZE ] ++
 [ "max runtime: \(max( [ runtimes[r, in_size] | r in roles ] ))\n" ] ++
-[ concat( ["   "] ++ ["\(i), " | i in index_set_2of2(runtimes)] ++ ["\n"] ) ] ++
-[ concat( ["\(i): "] ++ ["\(runtimes[i,j]), " | j in index_set_2of2(runtimes) ] ++ [ "\n" ] )  | i in index_set_1of2(runtimes)];
+[ concat( 
+  ["   "] ++ 
+  ["\(i), " ++
+  if(i<10) then " " else "" endif | i in index_set_2of2(runtimes)] ++ 
+  ["\n"] ) ] ++
+[ concat( 
+  ["\(i): "] ++ 
+  ["\(runtimes[i,j]), " ++ 
+  if(fix(runtimes[i,j]) < 10) then " " else "" endif | j in index_set_2of2(runtimes) ] ++ 
+  [ "\n" ] )  | i in index_set_1of2(runtimes)];
 
 
 

@@ -1,20 +1,26 @@
 {
     "openFiles": [
         "Main.mzn",
-        "prog1.dzn",
-        "karatsuba.dzn",
-        "SimpleMethodCalls.dzn",
-        "SimpleBatching.dzn",
-        "SimpleIf.dzn"
+        "objectives/makespan.mzn",
+        "objectives/num_coms.mzn",
+        "data/SimpleBatching.dzn",
+        "data/SimpleIf.dzn",
+        "data/SimpleMethodCalls.dzn",
+        "data/karatsuba.dzn",
+        "data/prog1.dzn"
     ],
-    "openTab": 0,
+    "openTab": 2,
     "projectFiles": [
         "Main.mzn",
-        "SimpleBatching.dzn",
-        "SimpleIf.dzn",
-        "SimpleMethodCalls.dzn",
-        "karatsuba.dzn",
-        "prog1.dzn",
+        "data/SimpleBatching.dzn",
+        "data/SimpleIf.dzn",
+        "data/SimpleMethodCalls.dzn",
+        "data/karatsuba.dzn",
+        "data/makespan.mzn",
+        "data/num_coms.mzn",
+        "data/prog1.dzn",
+        "objectives/makespan.mzn",
+        "objectives/num_coms.mzn",
         "solver_config.mpc"
     ],
     "selectedSolverConfigFile": "solver_config.mpc",

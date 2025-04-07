@@ -10,10 +10,11 @@ var int: num_coms = sum( idx in DEPS )  % count the number of coms. if two (or m
 
 solve minimize num_coms ;
 output 
-[ "Output program: \n" ]++
+[ "Output list: \n" ]++
 [ "[ \(out_prog_idx[DEPS[1]])" ] ++ 
 [ ", \(out_prog_idx[i])" | i in DEPS where i > DEPS[1] ] ++ 
 [ " ]\n" ] ++
-[ concat(["- : \(dependencies[j]) -> \(dep_to[j])\n" | j in DEPS where fix(out_prog_idx[j]) = i ]) 
+[ "Output program: \n" ]++
+[ concat(["- : \(dep_from[j])--( \(dependencies[j]) )-> \(dep_to[j])\n" | j in DEPS where fix(out_prog_idx[j]) = i ]) 
   ++ "\(i) : \(statements[i])\n" | i in IN_SIZE ] ++
 [ "Communications: \(num_coms)\n" ];
