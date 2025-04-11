@@ -1,0 +1,55 @@
+in_size = 9;
+statements = [ 
+"int@A x = 0@A;", 
+"int@B y1 = 1@B;",
+"int@B y2 = 1@B;", % 3
+"if( x < 1 ){",
+"fun@B(x);",
+"fun@A(x);", % 6
+"} else {",
+"fun@B(y1);",
+"fun@A(y1);}" ]; % 9 
+
+statements_roles = [
+r(A), r(B), r(B), r(A), r(B), r(A), NULL, r(B), r(A)];
+
+num_blocks=3;
+
+blocks = [|
+0, in_size, 0|
+4, 6, 1|
+7, 9, 1|];
+
+statements_blocks =
+[ 1, 1, 1, 1, 2, 2, 1, 3, 3 ];
+
+
+roles = {A, B};
+
+num_deps = 2;
+dependencies = array1d( DEPS, [
+  "x", "y1"]); 
+dep_from = array1d( DEPS, [
+  A, B]); 
+dep_to = array1d( DEPS, [
+  B, A]); 
+dep_def_at = array1d( DEPS, [
+  1, 2]);
+  
+dep_used_at = [|
+DEPS[1], 5|
+DEPS[2], 9|];
+
+
+
+
+
+
+
+
+
+
+
+
+
+

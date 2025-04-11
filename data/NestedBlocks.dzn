@@ -1,0 +1,75 @@
+in_size = 15;
+statements = [ 
+"int@A x = 0@A;", 
+"int@B y1 = 1@B;",
+"int@B y2 = 1@B;", %3 
+"if( x < 1 ){", 
+"state_B.fun();",
+"{", % 6
+"}",
+"state_B.fun(state_A.fun(state_B.fun()));",
+"state_A.fun(x);", %9 
+"} else {",
+"{",
+"state_A.fun(y1);", % 12
+"}",
+"state_B.fun(state_A.fun(y1));", 
+"state_A.fun();}" ]; % 15
+
+statements_roles = [
+r(A), r(B), r(B), 
+r(A), r(B), NULL, 
+NULL, r(B), r(A), 
+NULL, NULL, r(A), 
+NULL, r(B), r(A)];
+
+num_blocks=5;
+
+blocks = [|
+0, in_size, 0|
+4, 10, 1|
+10, 15, 1|
+6, 7, 2|
+11, 13, 3|];
+
+statements_blocks = [ 
+1, 1, 1, 
+1, 2, 2, 
+4, 2, 2, 
+2, 3, 5, 
+5, 3, 3 ];
+
+
+roles = {A, B};
+
+num_deps = 4;
+dependencies = array1d( DEPS, [
+  "state_A.fun(state_B.fun())", "state_B.fun()", "state_A.fun(y1)", "y1"]); 
+dep_from = array1d( DEPS, [
+  A, B, A, B]); 
+dep_to = array1d( DEPS, [
+  B, A, B, A]); 
+dep_def_at = array1d( DEPS, [
+  0, 0, 0, 2]);
+  
+dep_used_at = [|
+DEPS[1], 8|
+DEPS[2], DEPS[1]|
+DEPS[3], 14|
+DEPS[4], DEPS[3]|
+% DEPS[4], 15|
+DEPS[4], 12|];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
