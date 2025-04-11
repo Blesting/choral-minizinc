@@ -36,24 +36,19 @@ function var bool: in_statement_block( DEPS: dep, OUT_SIZE: used_at ) =
     then 
       in_block(dep, statements_blocks[used_at])
     else % used in dependency (nested dependency)
-      true % in_block(dep, statements_blocks[out_prog_idx[used_at]])
+      in_block(dep, statements_blocks[out_prog_idx[used_at]])
   endif ;
 
-function var bool: in_block( DEPS: dep, NUM_BLOCKS: block ) =
+function var bool: in_block( DEPS: dep, var NUM_BLOCKS: block ) =
   (
-    in_block_scope(dep, block)
-    /\
-    forall( b in index_set_1of2(blocks) where b != block) (
-      in_block_scope( dep, b ) -> blocks[b,3] != block
-    )
-  ) \/ (
-    in_block( dep, blocks[block, 3] )
+    statements_blocks[out_prog_idx[dep]] ==  block % dependency is placed inside target block
+  ) \/ ( % or the dependency is placed inside a block that is completely within the target block
+    blocks[block, 1] > blocks[ statements_blocks[out_prog_idx[dep]], 1 ] /\
+    blocks[block, 1] <= blocks[ statements_blocks[out_prog_idx[dep]], 2 ] /\
+    blocks[block, 2] > blocks[ statements_blocks[out_prog_idx[dep]], 1 ] /\
+    blocks[block, 2] <= blocks[ statements_blocks[out_prog_idx[dep]], 2 ] 
   );
 
-function var bool: in_block_scope( DEPS: dep, var NUM_BLOCKS: block ) = 
-  out_prog_idx[dep] > blocks[block, 1]
-  /\
-  out_prog_idx[dep] <= blocks[block, 2];
 
 % --=== Constraints ===--
 constraint forall( x in DEPS ) ( % makes sure communmications inserted after dependency definition
