@@ -14,7 +14,15 @@ statements = [
 ];
 
 statements_roles = [
-A, A, A, A, A, A, A, B, C, A, A];
+r(A), r(A), r(A), r(A), r(A), r(A), r(A), r(B), r(C), r(A), r(A)];
+
+num_blocks=1;
+
+blocks = [|
+0, in_size, 0|];
+
+statements_blocks =
+[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ];
 
 roles = {A, B, C};
 

@@ -12,10 +12,19 @@ statements = [
 ];
 
 statements_roles = [
-A, B, A, A, A, A, A, A, A];
-
+r(A), r(B), r(A), r(A), r(A), r(A), r(A), r(A), r(A)];
 
 roles = {A, B};
+
+num_blocks=1;
+
+blocks = [|
+0, in_size, 0|];
+
+statements_blocks = [ 
+1, 1, 1,
+1, 1, 1,
+1, 1, 1];
 
 num_deps = 5;
 dependencies = array1d( DEPS, [

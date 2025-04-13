@@ -6,9 +6,17 @@ statements = [
 "B.m( x2 );" ]; 
 
 statements_roles = [
-A, A, B, B];
+r(A), r(A), r(B), r(B)];
 
 roles = {A, B};
+
+num_blocks=1;
+
+blocks = [|
+0, in_size, 0|];
+
+statements_blocks = [ 
+1, 1, 1, 1 ];
 
 num_deps = 2;
 dependencies = array1d( DEPS, [
