@@ -26,6 +26,10 @@ statements_blocks = [
 1, 1, 1,
 1, 1, 1];
 
+num_ifs = 0;
+if_blocks = [];
+if_roles = [];
+
 num_deps = 5;
 dependencies = array1d( DEPS, [
   "i_B", "c_B.fun_out()", "c_A.fun_out()", "c_B.fun_in_out( c_A.fun_out() )", "c_B.price.currency"]); 

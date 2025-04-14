@@ -20,6 +20,10 @@ statements_blocks = [
 1, 1, 1,
 1, 1];
 
+num_ifs = 0;
+if_blocks = [];
+if_roles = [];
+
 num_deps = 3;
 dependencies = array1d( DEPS, [
   "y", "x", "y_A"]); 

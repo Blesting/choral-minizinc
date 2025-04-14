@@ -39,8 +39,14 @@ statements_blocks = [
 2, 3, 5, 
 5, 3, 3 ];
 
-
 roles = {A, B};
+
+num_ifs = 1;
+
+if_blocks = [|
+2, 3|];
+
+if_roles = [ A ];
 
 num_deps = 4;
 dependencies = array1d( DEPS, [

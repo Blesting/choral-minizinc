@@ -99,6 +99,7 @@ constraint forall( if_ in NUM_IFS ) (
     )
   )
 );
+
 constraint forall( if_ in NUM_IFS ) (
   forall( role in roles )(
     forall( branch in 1..2 )(

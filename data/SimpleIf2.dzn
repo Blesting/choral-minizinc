@@ -24,11 +24,21 @@ blocks = [|
 6, 9, 1|
 10, 13, 1|];
 
-statements_blocks =
-[ 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 3, 3, 3 ];
-
+statements_blocks =[ 
+1, 1, 1, 
+1, 1, 1, 
+2, 2, 2, 
+2, 3, 3, 
+3 ];
 
 roles = {A, B};
+
+num_ifs = 1;
+
+if_blocks = [|
+2, 3|];
+
+if_roles = [ A ];
 
 num_deps = 4;
 dependencies = array1d( DEPS, [

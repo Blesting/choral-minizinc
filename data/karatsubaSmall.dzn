@@ -26,6 +26,10 @@ statements_blocks =
 
 roles = {A, B, C};
 
+num_ifs = 0;
+if_blocks = [];
+if_roles = [];
+
 num_deps = 6;
 dependencies = array1d( DEPS, [
   "l1", "l2", "h1", "h2", "z2", "z0"]); 

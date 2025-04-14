@@ -7,21 +7,43 @@ constraint forall( r in roles, s in IN_SIZE ) (runtimes[r, s] >= runtimes[r, s-1
 constraint 
 forall( role in roles )(
   forall( s in IN_SIZE )(
-    forall( d in DEPS )(
-       (runtimes[role, s] = 
-          if(out_prog_idx[d] == s /\ dep_to[d] == role) % the dependency is on this line and to this role
-            then max( runtimes[dep_from[d], s-1]+1, runtimes[role, s-1] ) % simulates recipient waiting for sender
-            else runtimes[role, s-1]
-          endif +
-         (if statements_roles[s] == r(role) then statements_runtimes[s] else 0 endif) + % if this statement is executed by this role
-         (sum( [ 1 | k in DEPS where % all the messages sent from this role at this statement
-            dep_from[k] == role /\ 
-            out_prog_idx[k] == s /\ 
-            forall( k2 in DEPS[1]..k-1 where dep_from[k2] == role /\ out_prog_idx[k2] == s )
-              ( dep_to[k] != dep_to[k2] ) ] )
-         )
-       )   
-    ) 
+    (runtimes[role, s] >=
+      max( 
+        [ runtimes[role, s-1] ] ++ % its own previous runtime
+        [ if(out_prog_idx[d] == s /\ dep_to[d] == role) % previous runtime of roles who send messages to this role at this statement
+            then runtimes[dep_from[d], s-1]+1 
+            else 0 
+          endif |
+          d in DEPS
+        ] ++
+        [ if(selections[if_, branch, role] == s) % previous runtime of roles that send selections to this role at this statement
+            then runtimes[if_roles[if_], s-1]+1 
+            else 0 
+          endif | 
+          if_ in NUM_IFS, 
+          branch in 1..2  
+        ]
+      ) +
+      (if statements_roles[s] == r(role) then statements_runtimes[s] else 0 endif) + % if this statement is executed by this role
+      sum(
+        [ 1 | 
+        k in DEPS 
+        where % all the messages sent from this role at this statement
+          dep_from[k] == role /\ 
+          out_prog_idx[k] == s /\ 
+          forall( k2 in DEPS[1]..k-1 where dep_from[k2] == role /\ out_prog_idx[k2] == s )
+            ( dep_to[k] != dep_to[k2] ) ] 
+      ) +
+      sum(
+        [ 1 |
+        if_ in NUM_IFS,
+        branch in 1..2,
+        other in roles
+        where
+          if_roles[if_] == role /\
+          selections[if_, branch, other] == s]
+      )
+    )  
   )
 );
 
