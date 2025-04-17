@@ -1,4 +1,4 @@
-in_size = 9;
+in_size = 10;
 statements = [ 
 "int@A x = 0@A;", 
 "int@B y1 = 1@B;",
@@ -8,10 +8,11 @@ statements = [
 "fun@A(x);", % 6
 "} else {",
 "fun@B(y1);",
-"fun@A(y1);}" ]; % 9 
+"fun@A(y1);", % 9 
+"}" ]; 
 
 statements_roles = [
-r(A), r(B), r(B), r(A), r(B), r(A), NULL, r(B), r(A)];
+r(A), r(B), r(B), r(A), r(B), r(A), NULL, r(B), r(A), NULL];
 
 num_blocks=3;
 
@@ -23,7 +24,8 @@ blocks = [|
 statements_blocks =[ 
 1, 1, 1, 
 1, 2, 2, 
-2, 3, 3 ];
+2, 3, 3,
+3 ];
 
 num_ifs = 1;
 
