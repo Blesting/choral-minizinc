@@ -10,11 +10,13 @@
         "data/SimpleIf2.dzn",
         "data/SimpleIf3.dzn",
         "data/NestedBlocks.dzn",
-        "data/karatsubaSmall.dzn"
+        "data/karatsubaSmall.dzn",
+        "data/Karatsuba.dzn"
     ],
     "openTab": 1,
     "projectFiles": [
         "Main.mzn",
+        "data/Karatsuba.dzn",
         "data/NestedBlocks.dzn",
         "data/SimpleBatching.dzn",
         "data/SimpleIf.dzn",

@@ -1,0 +1,68 @@
+in_size = 15;
+statements = [
+"if ( n1 < 10@A || n2 < 10@A ) {",
+"return n1 * n2;",
+"} else {", % 3
+"Double@A m = Math@A.max( Math@A.log10( n1 ), Math@A.log10( n2 ) ) + 1@A;",
+"Integer@A m2 = Double@A.valueOf( m / 2@A ).intValue();",
+"Integer@A splitter = Double@A.valueOf( Math@A.pow( 10@A, m2 ) ).intValue();", % 6
+"Long@A h1 = n1 / splitter;",
+"Long@A l1 = n1 % splitter;",
+"Long@A h2 = n2 / splitter;", % 9
+"Long@A l2 = n2 % splitter;",
+"Long@B z0 = Karatsuba@( B, C, A ).multiply( l1, l2, ch_BC, ch_CA, ch_AB );",
+"Long@C z2 = Karatsuba@( C, A, B ).multiply( h1, h2, ch_CA, ch_AB, ch_BC );", % 12
+"Long@A z1 = Karatsuba@( A, B, C ).multiply( l1 + h1, l2 + h2, ch_AB, ch_BC, ch_CA ) - z2 - z0;",
+"return z2 * splitter * splitter + z1 * splitter + z0;",
+"}" % 15
+];
+
+statements_roles = [
+r(A), r(A), NULL,
+r(A), r(A), r(A), 
+r(A), r(A), r(A), 
+r(A), r(B), r(C), 
+r(A), r(A), NULL];
+
+num_blocks = 3;
+
+blocks = [|
+0, in_size, 0|
+1, 3, 1|
+3, 15, 1|];
+
+statements_blocks =[ 
+1, 2, 2, 
+3, 3, 3, 
+3, 3, 3, 
+3, 3, 3,
+3, 3, 3 ];
+
+roles = {A, B, C};
+
+num_ifs = 1;
+
+if_blocks = [|
+2, 3|];
+
+if_roles = [A];
+
+num_deps = 6;
+dependencies = array1d( DEPS, [
+  "l1", "l2", "h1", "h2", "z2", "z0"]); 
+dep_from = array1d( DEPS, [
+  A, A, A, A, C, B]); 
+dep_to = array1d( DEPS, [
+  B, B, C, C, A, A]); 
+dep_def_at = array1d( DEPS, [
+  8, 10, 7, 9, 12, 11]);
+  
+dep_used_at = [|
+DEPS[1], 11|
+DEPS[2], 11|
+DEPS[3], 12|
+DEPS[4], 12|
+DEPS[5], 13|
+DEPS[6], 13|
+DEPS[5], 14|
+DEPS[6], 14|];

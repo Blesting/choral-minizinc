@@ -1,10 +1,10 @@
 include "../Main.mzn";
 
 % --== Variable ==--
-array[roles, 0..in_size] of var int: runtimes;
+array[roles, 0..in_size+1] of var int: runtimes;
 
 % --== Helper functions ==--
-function var int: get_runtime_after_if( roles: role, IN_SIZE: s ) = 
+function var int: get_runtime_after_if( roles: role, int: s ) = 
   sum( 
     [ runtimes[role, blocks[if_blocks[if_, block], 2]] | 
     if_ in NUM_IFS,
@@ -13,13 +13,13 @@ function var int: get_runtime_after_if( roles: role, IN_SIZE: s ) =
       s == blocks[if_blocks[if_, 2], 2] + 1 ] 
   );
 
-function bool: comes_after_if(IN_SIZE: s) = 
+function bool: comes_after_if(int: s) = 
   exists( 
     [ if(s == blocks[if_blocks[if_, 2], 2] + 1) then true else false endif | 
           if_ in NUM_IFS ] 
   );
 
-function int: get_prev(IN_SIZE: s) = 
+function int: get_prev(int: s) = 
   if(
     exists( 
       [
@@ -45,7 +45,7 @@ function int: get_prev(IN_SIZE: s) =
       s-1
   endif;
 
-function var int: get_base_runtime(roles: role, IN_SIZE: s) =
+function var int: get_base_runtime(roles: role, int: s) =
   if( comes_after_if(s) )
     then 
       get_runtime_after_if(role, s)
@@ -103,7 +103,11 @@ forall( role in roles )(
   )
 );
 
-solve minimize max( [ runtimes[r, in_size] | r in roles ] );
+constraint forall( role in roles )(
+  runtimes[role, in_size+1] = get_base_runtime(role, in_size+1)
+);
+
+solve minimize max( [ runtimes[r, in_size+1] | r in roles ] );
 output 
 [ "Selections: \n" ] ++
 [ concat([ concat(
@@ -138,7 +142,7 @@ output
     [": \(statements[i])\n"]
   ) | i in IN_SIZE ] ++
 
-[ "max runtime: \(max( [ runtimes[r, in_size] | r in roles ] ))\n" ] ++
+[ "max runtime: \(max( [ runtimes[r, in_size+1] | r in roles ] ))\n" ] ++
 [ concat( 
   ["___"] ++ 
   ["\(i)__" ++
