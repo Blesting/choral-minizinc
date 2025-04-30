@@ -34,6 +34,13 @@ blocks = [|
 12, 14, 1|
 14, 16, 1|];
 
+block_returns = [
+blocks[1, 2],
+blocks[2, 2],
+blocks[3, 2],
+blocks[4, 2],
+blocks[5, 2]];
+
 statements_blocks =[ 
 1, 1, 1, 
 1, 2, 2, 

@@ -16,6 +16,9 @@ num_blocks=1;
 blocks = [|
 0, in_size, 0|];
 
+block_returns = [
+blocks[1, 2]];
+
 statements_blocks = [ 
 1, 1, 1,
 1, 1];
